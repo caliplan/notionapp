@@ -29,38 +29,42 @@ exports.handler = async (event, context) => {
   }
 
   // Handle POST request for adding test text
-  if (event.httpMethod === 'POST' && event.path === '/api/add-test-text') {
-    try {
-      const response = await notion.blocks.children.append({
-        block_id: process.env.NOTION_PAGE_ID,
-        children: [
-          {
-            object: 'block',
-            type: 'paragraph',
-            paragraph: {
-              rich_text: [
-                {
-                  type: 'text',
-                  text: {
-                    content: "This is a test entry from the React app.",
+  if (event.httpMethod === 'POST') {
+    const { action } = JSON.parse(event.body);
+    
+    if (action === 'add-test-text') {
+      try {
+        const response = await notion.blocks.children.append({
+          block_id: process.env.NOTION_PAGE_ID,
+          children: [
+            {
+              object: 'block',
+              type: 'paragraph',
+              paragraph: {
+                rich_text: [
+                  {
+                    type: 'text',
+                    text: {
+                      content: "This is a test entry from the React app.",
+                    },
                   },
-                },
-              ],
+                ],
+              },
             },
-          },
-        ],
-      });
+          ],
+        });
 
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ message: "Test text added to Notion page", blockId: response.results[0].id })
-      };
-    } catch (error) {
-      console.error('Error adding test text to Notion:', error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: "Failed to add test text to Notion" })
-      };
+        return {
+          statusCode: 200,
+          body: JSON.stringify({ message: "Test text added to Notion page", blockId: response.results[0].id })
+        };
+      } catch (error) {
+        console.error('Error adding test text to Notion:', error);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: "Failed to add test text to Notion" })
+        };
+      }
     }
   }
 

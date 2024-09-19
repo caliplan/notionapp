@@ -20,17 +20,18 @@ function App() {
   }, []);
 
   const handleAddTestText = async () => {
-    console.log('Button clicked'); // Add this line
+    console.log('Button clicked');
     try {
-      console.log('Sending request to add test text'); // Add this line
-      const response = await fetch('/.netlify/functions/api/add-test-text', {
+      console.log('Sending request to add test text');
+      const response = await fetch('/.netlify/functions/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ action: 'add-test-text' }),
       });
       const data = await response.json();
-      console.log('Response received:', data); // Add this line
+      console.log('Response received:', data);
       setTestMessage(data.message);
     } catch (error) {
       console.error('Error:', error);
