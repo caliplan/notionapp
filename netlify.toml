@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "src/frontend/build"
+  functions = "src/backend"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
