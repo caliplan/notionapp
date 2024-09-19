@@ -1,9 +1,17 @@
 const { Client } = require('@notionhq/client');
+const { handler: authMiddleware } = require('./authMiddleware');
+
 require('dotenv').config();
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 exports.handler = async (event, context) => {
+  // First, run the auth middleware
+  const authResult = await authMiddleware(event, context);
+  if (authResult.statusCode === 401) {
+    return authResult;
+  }
+
   try {
     // Basic test query
     const response = await notion.search({

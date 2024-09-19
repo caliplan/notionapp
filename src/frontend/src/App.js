@@ -6,7 +6,11 @@ function App() {
   const [databaseCount, setDatabaseCount] = useState(null);
 
   useEffect(() => {
-    fetch('/.netlify/functions/api')
+    fetch('/.netlify/functions/api', {
+      headers: {
+        'x-api-key': 'your-api-key-here' // In a real app, this would be stored securely
+      }
+    })
       .then(response => response.json())
       .then(data => {
         setMessage(data.message);
