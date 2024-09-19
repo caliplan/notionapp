@@ -8,7 +8,7 @@ function App() {
   useEffect(() => {
     fetch('/.netlify/functions/api', {
       headers: {
-        'x-api-key': 'your-api-key-here' // In a real app, this would be stored securely
+        'x-api-key': '29455654ad0546c7a82641ca8f9dd9f887bdafde5cf1466cad0eda930463c6e4' // In a real app, this would be stored securely
       }
     })
       .then(response => response.json())
