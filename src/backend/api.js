@@ -6,11 +6,10 @@ require('dotenv').config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 exports.handler = async (event, context) => {
-  console.log('API Key received:', event.headers['x-api-key']);
-  console.log('Expected API Key:', process.env.API_KEY);
-
+  console.log('Function invoked');
   try {
     // First, run the auth middleware
+    console.log('Running auth middleware');
     const authResult = await authMiddleware(event, context);
     if (authResult.statusCode === 401) {
       console.log('Authentication failed');
@@ -20,6 +19,7 @@ exports.handler = async (event, context) => {
     console.log('Authentication successful');
 
     // Basic test query
+    console.log('Querying Notion API');
     const response = await notion.search({
       query: '',
       filter: {
@@ -28,7 +28,7 @@ exports.handler = async (event, context) => {
       }
     });
 
-    console.log('Notion API response:', response);
+    console.log('Notion API response:', JSON.stringify(response));
 
     return {
       statusCode: 200,

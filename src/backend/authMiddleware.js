@@ -1,4 +1,5 @@
 exports.handler = async (event, context) => {
+  console.log('Auth middleware invoked');
   const apiKey = event.headers['x-api-key'];
   console.log('Received API Key:', apiKey);
   console.log('Expected API Key:', process.env.API_KEY);
@@ -12,6 +13,7 @@ exports.handler = async (event, context) => {
   }
   
   console.log('API Key authentication successful');
-  // If the API key is valid, continue to the next function
-  return await context.next();
+  // If the API key is valid, we don't call context.next(), 
+  // instead we just return null to indicate success
+  return null;
 };
