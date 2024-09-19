@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [message, setMessage] = useState('Loading...');
   const [databaseCount, setDatabaseCount] = useState(null);
+  const [testMessage, setTestMessage] = useState('');
 
   useEffect(() => {
     fetch('/.netlify/functions/api')
@@ -18,6 +19,22 @@ function App() {
       });
   }, []);
 
+  const handleAddTestText = async () => {
+    try {
+      const response = await fetch('/.netlify/functions/api/add-test-text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      setTestMessage(data.message);
+    } catch (error) {
+      console.error('Error:', error);
+      setTestMessage('Failed to add test text');
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -26,6 +43,8 @@ function App() {
         {databaseCount !== null && (
           <p>Number of databases: {databaseCount}</p>
         )}
+        <button onClick={handleAddTestText}>Add Test Text to Notion</button>
+        {testMessage && <p>{testMessage}</p>}
       </header>
     </div>
   );
