@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
     // First, run the auth middleware
     console.log('Running auth middleware');
     const authResult = await authMiddleware(event, context);
-    if (authResult.statusCode === 401) {
+    if (authResult && authResult.statusCode === 401) {
       console.log('Authentication failed');
       return authResult;
     }
