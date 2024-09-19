@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     fetch('/.netlify/functions/api', {
       headers: {
-        'x-api-key': '29455654ad0546c7a82641ca8f9dd9f887bdafde5cf1466cad0eda930463c6e4' // Replace with your actual API key
+        'x-api-key': process.env.REACT_APP_API_KEY || 'Not set' // Replace with your actual API key
       }
     })
       .then(response => {
